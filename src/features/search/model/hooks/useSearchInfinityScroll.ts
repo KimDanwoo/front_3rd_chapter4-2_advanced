@@ -7,7 +7,7 @@ interface InfiniteScrollReturn {
   updatePage: (newPage: number) => void
 }
 
-export const useInfiniteScroll = (lastPage: number): InfiniteScrollReturn => {
+export const useSearchInfinityScroll = (lastPage: number): InfiniteScrollReturn => {
   const loaderWrapperRef = useRef<HTMLDivElement>(null)
   const loaderRef = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(1)
@@ -52,6 +52,6 @@ export const useInfiniteScroll = (lastPage: number): InfiniteScrollReturn => {
     loaderRef,
     loaderWrapperRef,
     page,
-    updatePage
+    updatePage,
   }
 }

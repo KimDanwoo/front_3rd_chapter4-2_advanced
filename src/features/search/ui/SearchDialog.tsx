@@ -29,11 +29,13 @@ import {
   VStack,
   Wrap,
 } from '@chakra-ui/react'
-import { useScheduleContext } from './ScheduleContext.tsx'
-import { Lecture, SearchOption } from './types.ts'
-import { parseSchedule } from './utils.ts'
-import { DAY_LABELS } from './constants.ts'
-import { useFetchLecture, useLectureFilter, useInfiniteScroll } from '../hooks'
+import { useScheduleContext } from '@features/schedule/model'
+import { Lecture } from '@entities/lecture/model'
+import { SearchOption } from '@entities/search/model'
+import { parseSchedule } from '@entities/schedule/model'
+import { DAY_LABELS } from '@entities/schedule/model'
+import { useFetchLecture, useLectureFilter } from '@features/lecture/model'
+import { useSearchInfinityScroll } from '@features/search/model'
 
 interface Props {
   searchInfo: {
@@ -74,7 +76,7 @@ const TIME_SLOTS = [
 const PAGE_SIZE = 100
 
 // TODO: 이 컴포넌트에서 불필요한 연산이 발생하지 않도록 다양한 방식으로 시도해주세요.
-const SearchDialog = ({ searchInfo, onClose }: Props) => {
+export const SearchDialog = ({ searchInfo, onClose }: Props) => {
   const { setSchedulesMap } = useScheduleContext()
   const { lectures } = useFetchLecture()
 
@@ -89,7 +91,7 @@ const SearchDialog = ({ searchInfo, onClose }: Props) => {
   const filteredLectures = useLectureFilter(lectures, searchOptions)
   const lastPage = Math.ceil(filteredLectures.length / PAGE_SIZE)
 
-  const { loaderWrapperRef, loaderRef, page, updatePage } = useInfiniteScroll(lastPage)
+  const { loaderWrapperRef, loaderRef, page, updatePage } = useSearchInfinityScroll(lastPage)
 
   const visibleLectures = filteredLectures.slice(0, page * PAGE_SIZE)
   const allMajors = [...new Set(lectures.map((lecture) => lecture.major))]
@@ -325,5 +327,3 @@ const SearchDialog = ({ searchInfo, onClose }: Props) => {
     </Modal>
   )
 }
-
-export default SearchDialog

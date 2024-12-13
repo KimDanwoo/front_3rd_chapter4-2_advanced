@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Lecture } from '../basic/types'
+import { Lecture } from '@entities/lecture/model'
 import { useEffect, useCallback, useState } from 'react'
 
 const lectureCache = {
